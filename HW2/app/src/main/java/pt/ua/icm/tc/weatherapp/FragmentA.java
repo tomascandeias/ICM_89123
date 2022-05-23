@@ -1,16 +1,22 @@
 package pt.ua.icm.tc.weatherapp;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +79,22 @@ public class FragmentA extends Fragment {
         recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new ItemAdapter(initData()));
+
+        ItemAdapter itemAdapter = new ItemAdapter(initData());
+        recyclerView.setAdapter(itemAdapter);
+
+        itemAdapter.setOnItemClickListener(new ItemAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                FragmentB fragmentB = new FragmentB();
+                ft.replace(R.id.fragmentA, fragmentB);
+                ft.commit();
+            }
+        });
+
+
 
         return view;
     }

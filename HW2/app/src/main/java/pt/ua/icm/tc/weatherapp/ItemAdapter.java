@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private final List<Model> itemList1;
+    private static ClickListener clickListener;
 
     public ItemAdapter(List<Model> itemList) {
         this.itemList1=itemList;
@@ -38,17 +40,29 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return itemList1.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView itemtxt;
-        LinearLayout linearLayout;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemtxt=itemView.findViewById(R.id.itemName);
-            linearLayout=itemView.findViewById(R.id.layout_id);
+            itemtxt = itemView.findViewById(R.id.itemName);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            clickListener.onItemClick(getAdapterPosition(), view);
+        }
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        ItemAdapter.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
     }
 }
