@@ -35,16 +35,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnopen=findViewById(R.id.btnOpenFrag);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.MainContainer, new FragmentA()).commit();
 
-        btnopen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.MainContainer,new FragmentA()).commit();
-            }
-        });
 
         /*Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

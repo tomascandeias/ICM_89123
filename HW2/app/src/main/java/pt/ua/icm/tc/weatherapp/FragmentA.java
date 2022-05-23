@@ -2,6 +2,7 @@ package pt.ua.icm.tc.weatherapp;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -84,13 +85,21 @@ public class FragmentA extends Fragment {
         recyclerView.setAdapter(itemAdapter);
 
         itemAdapter.setOnItemClickListener(new ItemAdapter.ClickListener() {
+            @SuppressLint("ResourceType")
             @Override
             public void onItemClick(int position, View v) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
+                FragmentManager fm=getFragmentManager();
+
+                Bundle bundle = new Bundle();
+                System.err.println("onItemClick()");
+                System.err.println(initData().get(position).getName());
+
+                bundle.putString("name", initData().get(position).getName());
+
                 FragmentB fragmentB = new FragmentB();
-                ft.replace(R.id.fragmentA, fragmentB);
-                ft.commit();
+                fragmentB.setArguments(bundle);
+
+                fm.beginTransaction().replace(R.id.MainContainer, fragmentB).commit();
             }
         });
 
