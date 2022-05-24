@@ -1,26 +1,31 @@
 package pt.ua.icm.tc.weatherapp;
 
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import pt.ua.icm.tc.weatherapp.datamodel.City;
+import pt.ua.icm.tc.weatherapp.datamodel.Weather;
+import pt.ua.icm.tc.weatherapp.datamodel.WeatherType;
+import pt.ua.icm.tc.weatherapp.network.CityResultsObserver;
+import pt.ua.icm.tc.weatherapp.network.ForecastForACityResultsObserver;
+import pt.ua.icm.tc.weatherapp.network.IpmaWeatherClient;
+import pt.ua.icm.tc.weatherapp.network.WeatherTypesResultsObserver;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,18 +93,22 @@ public class FragmentA extends Fragment {
             @SuppressLint("ResourceType")
             @Override
             public void onItemClick(int position, View v) {
-                FragmentManager fm=getFragmentManager();
+                FragmentManager fm = getFragmentManager();
 
                 Bundle bundle = new Bundle();
-                System.err.println("onItemClick()");
-                System.err.println(initData().get(position).getName());
+                String cityName = initData().get(position).getName();
 
-                bundle.putString("name", initData().get(position).getName());
+                bundle.putString("name", cityName);
 
                 FragmentB fragmentB = new FragmentB();
                 fragmentB.setArguments(bundle);
 
-                fm.beginTransaction().replace(R.id.MainContainer, fragmentB).commit();
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    fm.beginTransaction().replace(R.id.details, fragmentB).commit();
+                }else{
+                    fm.beginTransaction().replace(R.id.cities, fragmentB).commit();
+                }
+
             }
         });
 
@@ -119,9 +128,12 @@ public class FragmentA extends Fragment {
         itemList.add(new Model("Leiria"));
         itemList.add(new Model("Lisboa"));
         itemList.add(new Model("Portalegre"));
-        itemList.add(new Model("Alentejo"));
-        itemList.add(new Model("Algarve"));
+        itemList.add(new Model("Beja"));
+        itemList.add(new Model("Faro"));
 
         return itemList;
     }
+
+
+
 }
