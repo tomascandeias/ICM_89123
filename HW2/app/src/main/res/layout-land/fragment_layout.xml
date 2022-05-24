@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/cities"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         class="pt.ua.icm.tc.weatherapp.FragmentA" />

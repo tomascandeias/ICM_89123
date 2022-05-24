@@ -1,13 +1,13 @@
 package pt.ua.icm.tc.weatherapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,16 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import pt.ua.icm.tc.weatherapp.datamodel.City;
-import pt.ua.icm.tc.weatherapp.datamodel.Weather;
-import pt.ua.icm.tc.weatherapp.datamodel.WeatherType;
-import pt.ua.icm.tc.weatherapp.network.CityResultsObserver;
-import pt.ua.icm.tc.weatherapp.network.ForecastForACityResultsObserver;
-import pt.ua.icm.tc.weatherapp.network.IpmaWeatherClient;
-import pt.ua.icm.tc.weatherapp.network.WeatherTypesResultsObserver;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,7 +97,7 @@ public class FragmentA extends Fragment {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                     fm.beginTransaction().replace(R.id.details, fragmentB).commit();
                 }else{
-                    fm.beginTransaction().replace(R.id.cities, fragmentB).commit();
+                    startActivity(new Intent(getActivity(), ActivityB.class).putExtra("name", cityName));
                 }
 
             }
